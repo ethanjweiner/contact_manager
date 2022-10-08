@@ -18,6 +18,7 @@
   - Email address
   - Telephone number
   - Tags
+- Are front-end routes required for different actions?
 
 ### Adding Contacts
 
@@ -39,6 +40,44 @@
 ### Tagging Contacts
 
 - Pre-created set of tags to select from
+
+## ARCHITECTURE
+
+### Model
+
+- Properties:
+  - Contacts (all)
+  - Filtered contacts
+  - Search field (?)
+- Methods:
+  - Filter contacts list
+  - Create contact
+  - Edit contact
+
+### View
+
+Two main views:
+1. Home page
+2. Contact form (add/edit)
+
+Properties:
+- Templates (import & compile)
+
+Functionality:
+- View-switching
+  - On "Add Contact" / "Edit Contact" click -> show contact form
+  - On "Cancel" click -> show home page
+
+### Contoller
+
+## PLAN
+
+1. View-switching
+  - Add transitions for view classes (should automatically transition upon show/hiding in JS?)
+  - Use animations?
+2. Contact adding
+3. Search
+4. Contact editing
 
 ## IMPLEMENTATION IDEAS
 
