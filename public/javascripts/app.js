@@ -2,24 +2,45 @@ import Controller from '/javascripts/controller.js';
 import Model from '/javascripts/model.js';
 import View from '/javascripts/view.js';
 
-const TEMPLATES = ['home', 'contact_form'];
+(async () => {
+  const TEMPLATES = ['home', 'contact_form'];
+  const PARTIALS = ['tags'];
 
-async function compileTemplates() {
-  Handlebars.templates = {};
+  async function compileTemplates() {
+    Handlebars.templates = {};
 
-  const promises = TEMPLATES.map((templateName) =>
-    fetch(`templates/${templateName}.handlebars`)
-      .then((response) => response.text())
-      .then((template) => {
-        Handlebars.templates[templateName] = Handlebars.compile(template);
-      })
-  );
+    const promises = TEMPLATES.map((templateName) =>
+      fetch(`templates/${templateName}.handlebars`)
+        .then((response) => response.text())
+        .then((template) => {
+          Handlebars.templates[templateName] = Handlebars.compile(template);
+        })
+    );
 
-  try {
-    await Promise.all(promises);
-  } catch (err) {
-    console.log(err);
+    try {
+      await Promise.all(promises);
+    } catch (err) {
+      console.log(err);
+    }
   }
-}
 
-compileTemplates().then(() => new Controller(new Model(), new View()));
+  async function registerPartials() {
+    const promises = PARTIALS.map((partialName) => {
+      fetch(`/templates/partials/${partialName}.handlebars`)
+        .then((response) => response.text())
+        .then((template) => {
+          Handlebars.registerPartial(partialName, template);
+        });
+    });
+
+    try {
+      await Promise.all(promises);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  await registerPartials();
+  await compileTemplates();
+  const app = new Controller(new Model(), new View());
+})();

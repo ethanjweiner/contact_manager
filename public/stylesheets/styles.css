@@ -12,3 +12,11 @@
   opacity: 1;
   animation: fade-in 1s ease;
 }
+
+a.dropdown-item {
+  cursor: pointer;
+}
+
+select {
+  width: 150px;
+}

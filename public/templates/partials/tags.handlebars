@@ -1,0 +1,7 @@
+<select name="tag" id="tag" class="form-select">
+  <option selected value="">Select a tag</option>
+  {{#each tags}}
+    <option value="{{tag}}">{{tag}}</option>
+  {{/each}}
+</select>
+<button type="button" class="btn btn-lg btn-outline-success">+ Create Tag</button>
