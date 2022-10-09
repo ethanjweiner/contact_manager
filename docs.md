@@ -77,15 +77,17 @@ Functionality:
   - Add transitions for view classes (should automatically transition upon show/hiding in JS?)
   - Use animations?
 2. Contact adding X
-3. Contact display
+3. Contact display X
   - Options:
     - Fetch only on app load -> update remotely & locally
     - Fetch + filter on every rendering -> update remotely only
   - Places to fetch:
     - Model
     - Controller
-4. Contact search/filtering
-5. Contact editing
+4. Contact search/filtering X
+5. Contact deletion
+6. Contact editing
+7. Tags functionality
 
 ## IMPLEMENTATION IDEAS
 

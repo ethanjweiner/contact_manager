@@ -3,6 +3,8 @@ class Model {
     this.fetchContacts().then((contacts) => {
       this.contacts = contacts;
       this.filteredContacts = this.contacts;
+      this.nameFilter = null;
+      this.tagFilter = null;
       this.onContactUpdate();
     });
   }
@@ -11,9 +13,29 @@ class Model {
     this.onContactUpdate = handler;
   }
 
-  filterContacts(filter = null) {
-    if (filter) {
-      // Filter contacts
+  filterByName(name) {
+    this.nameFilter = name;
+
+    if (name) {
+      this.filteredContacts = this.contacts.filter(({ full_name }) => {
+        return full_name.toLowerCase().includes(name.toLowerCase());
+      });
+    } else {
+      this.filteredContacts = this.contacts;
+    }
+
+    this.onContactUpdate();
+  }
+
+  filterByTag(tag) {
+    this.tagFilter = tag;
+
+    if (tag) {
+      this.filteredContacts = this.contacts.filter(({ tags }) => {
+        return tags.toLowerCase().includes(tag.toLowerCase());
+      });
+    } else {
+      this.filteredContacts = this.contacts;
     }
 
     this.onContactUpdate();

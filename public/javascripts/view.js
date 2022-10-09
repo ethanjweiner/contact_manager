@@ -15,8 +15,9 @@ class View {
     // Forms
     this.addContactForm = this.addContactPage.querySelector('form');
     this.editContactForm = this.editContactPage.querySelector('form');
+    this.searchBox = this.homePage.querySelector('#search');
 
-    this.bindListeners();
+    this.bindPageSwitches();
 
     // Rendering
     this.renderPage('#home');
@@ -45,7 +46,7 @@ class View {
     this.insertTemplate(form, 'contact_form', data);
   }
 
-  bindListeners() {
+  bindPageSwitches() {
     document.addEventListener('click', (e) => {
       const target = e.target;
 
@@ -62,6 +63,12 @@ class View {
       const newContact = this.formToData(target);
 
       addContact(newContact).then(() => this.renderPage('#home'));
+    });
+  }
+
+  bindSearch(filterByName) {
+    this.searchBox.addEventListener('input', (e) => {
+      filterByName(e.target.value);
     });
   }
 
