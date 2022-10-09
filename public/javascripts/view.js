@@ -9,11 +9,17 @@ class View {
     this.editContactPage = this.main.querySelector('#edit-contact');
     this.activePage = this.homePage;
 
+    // Contacts list
+    this.contactsList = this.homePage.querySelector('.contacts-list');
+
     // Forms
     this.addContactForm = this.addContactPage.querySelector('form');
     this.editContactForm = this.editContactPage.querySelector('form');
 
     this.bindListeners();
+
+    // Rendering
+    this.renderPage('#home');
   }
 
   renderPage(pageId) {
@@ -21,14 +27,22 @@ class View {
     this.activePage = this.main.querySelector(pageId);
     this.activePage.classList.remove('hidden');
 
-    if (this.activePage.contains(this.addContactForm)) {
+    if (this.activePage === this.addContactPage) {
       this.renderContactForm(this.addContactForm);
     }
   }
 
+  insertTemplate(element, template, data = {}) {
+    if (element.firstElementChild) element.firstElementChild.remove();
+    element.insertAdjacentHTML('afterbegin', this.templates[template](data));
+  }
+
+  renderContactsList(data) {
+    this.insertTemplate(this.contactsList, 'contacts_list', data);
+  }
+
   renderContactForm(form, data = {}) {
-    if (form.firstElementChild) form.firstElementChild.remove();
-    form.insertAdjacentHTML('afterbegin', this.templates['contact_form'](data));
+    this.insertTemplate(form, 'contact_form', data);
   }
 
   bindListeners() {
@@ -39,27 +53,16 @@ class View {
         this.renderPage(target.dataset.page);
       }
     });
-
-    this.addContactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      const target = e.target;
-      const newContact = this.formToData(target);
-      this.addContact(newContact).then(() => this.renderPage('#home'));
-    });
   }
 
-  async addContact(contact) {
-    const response = await fetch('/api/contacts', {
-      method: 'POST',
-      body: JSON.stringify(contact),
-      headers: {
-        'Content-Type': 'application/json; charset="utf-8"',
-      },
+  bindNewContactSubmission(addContact) {
+    this.addContactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const target = e.target;
+      const newContact = this.formToData(target);
+
+      addContact(newContact).then(() => this.renderPage('#home'));
     });
-    // Add new contact to model
-    const newContact = await response.json();
-    console.log(newContact);
   }
 
   formToData(form) {

@@ -73,12 +73,19 @@ Functionality:
 
 ## PLAN
 
-1. View-switching
+1. View-switching X
   - Add transitions for view classes (should automatically transition upon show/hiding in JS?)
   - Use animations?
-2. Contact adding
-3. Search
-4. Contact editing
+2. Contact adding X
+3. Contact display
+  - Options:
+    - Fetch only on app load -> update remotely & locally
+    - Fetch + filter on every rendering -> update remotely only
+  - Places to fetch:
+    - Model
+    - Controller
+4. Contact search/filtering
+5. Contact editing
 
 ## IMPLEMENTATION IDEAS
 
@@ -97,3 +104,5 @@ Functionality:
 ## DESIGN PATTERNS
 
 - Try to have some elements rendered in the starter HTML; makes event listening easier
+- Have a few helper methods ready to go (abstract into module?)
+- Decided to keep contact filtering on the view (closely tied to view)

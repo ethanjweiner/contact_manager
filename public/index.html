@@ -44,28 +44,7 @@
             <hr />
           </div>
         </form>
-
-        <!-- If any contacts at all exist -> Search Results -->
-        <div class="search-results mt-4">
-          <!-- If search results -> List -->
-          <div class="contacts-list"></div>
-          <!-- Else display placeholder -->
-          <div class="empty-search-result container text-center bg-light mt-4">
-            <h2>There are no contacts starting with ...</h2>
-          </div>
-        </div>
-
-        <!-- Else display no contacts placeholder -->
-        <div class="empty-contacts-placeholder bg-light container text-center">
-          <h2 class="mx-auto">There are no contacts.</h2>
-          <button
-            type="button"
-            class="page-switcher btn btn-lg btn-outline-primary mx-auto"
-            data-page="#add-contact"
-          >
-            Add Contact
-          </button>
-        </div>
+        <div class="contacts-list"></div>
       </div>
       <div id="add-contact" class="hidden page">
         <h2>Add Contact</h2>

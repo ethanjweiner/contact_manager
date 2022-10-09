@@ -35,3 +35,6 @@ select {
   cursor: pointer;
 }
 
+.card {
+  width: 225px;
+}

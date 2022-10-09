@@ -3,8 +3,8 @@ import Model from '/javascripts/model.js';
 import View from '/javascripts/view.js';
 
 (async () => {
-  const TEMPLATES = ['contact_form'];
-  const PARTIALS = ['tags'];
+  const TEMPLATES = ['contact_form', 'contacts_list'];
+  const PARTIALS = ['tags', 'contact'];
 
   async function compileTemplates() {
     Handlebars.templates = {};

@@ -1,0 +1,27 @@
+{{#if contacts}}
+  <div class='mt-4'>
+    {{#if filteredContacts}}
+      <div class='search-result d-flex flex-wrap justify-content-left'>
+        {{#each filteredContacts}}
+          {{> contact}}
+        {{/each}}
+      </div>
+    {{else}}
+      <div class='empty-search-result container text-center bg-light mt-4'>
+        <h2>There are no contacts starting with ...</h2>
+      </div>
+    {{/if}}
+  </div>
+
+{{else}}
+  <div class='empty-contacts-placeholder bg-light container text-center'>
+    <h2 class='mx-auto'>There are no contacts.</h2>
+    <button
+      type='button'
+      class='page-switcher btn btn-lg btn-outline-primary mx-auto'
+      data-page='#add-contact'
+    >
+      Add Contact
+    </button>
+  </div>
+{{/if}}
