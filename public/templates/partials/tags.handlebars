@@ -1,7 +1,31 @@
-<select name="tag" id="tag" class="form-select">
-  <option selected value="">Select a tag</option>
-  {{#each tags}}
-    <option value="{{tag}}">{{tag}}</option>
-  {{/each}}
-</select>
-<button type="button" class="btn btn-lg btn-outline-success">+ Create Tag</button>
+{{! Switch to checkbox }}
+<div>
+  <label class='form-label' for='tags'>Tags: </label>
+  <div class='form-check form-check-inline ms-2'>
+    <input
+      class='form-check-input'
+      type='checkbox'
+      value='test'
+      name='tags'
+      id='test-tag'
+    />
+    <label class='form-check-label' for='flexCheckDefault'>
+      <span class='tag badge bg-secondary'>Test</span>
+    </label>
+    {{#each tags}}
+      <input
+        class='form-check-input'
+        type='checkbox'
+        value='{{this}}'
+        name='tags'
+        id='{{this}}-tag'
+      />
+      <label class='form-check-label' for='flexCheckDefault'>
+        <span class='tag badge-sm bg-secondary'>{{this}}</span>
+      </label>
+    {{/each}}
+  </div>
+
+  {{! Open custom modal to add tag }}
+  <button type='button' class='add-tag btn btn-link'>+ Create Tag</button>
+</div>

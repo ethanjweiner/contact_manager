@@ -20,3 +20,7 @@ a.dropdown-item {
 select {
   width: 150px;
 }
+
+.tag {
+  cursor: pointer;
+}

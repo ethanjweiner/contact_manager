@@ -1,43 +1,43 @@
-<div class="view" id="home" class="container main-container">
-  <form class="row rows-cols g-3 align-items-center">
-    <div class="col-12">
-      <div class="input-group">
+<div class='view' id='home' class='container main-container'>
+  <form class='row rows-cols g-3 align-items-center'>
+    <div class='col-12'>
+      <div class='input-group'>
         <button
-          type="button"
-          class="view-switcher add-contact btn btn-lg btn-outline-primary"
-          data-view="contact_form"
+          type='button'
+          class='view-switcher add-contact btn btn-lg btn-outline-primary'
+          data-view='contact_form'
         >
           Add Contact
         </button>
         <input
-          type="text"
-          class="form-control"
-          name="search"
-          id="search"
-          placeholder="Search Contacts"
+          type='text'
+          class='form-control'
+          name='search'
+          id='search'
+          placeholder='Search Contacts'
         />
-        {{> tags}}
       </div>
+      <hr />
     </div>
   </form>
 
   <!-- If any contacts at all exist -> Search Results -->
-  <div class="search-results mt-4">
+  <div class='search-results mt-4'>
     <!-- If search results -> List -->
-    <div class="contacts-list"></div>
+    <div class='contacts-list'></div>
     <!-- Else display placeholder -->
-    <div class="empty-search-result container text-center bg-light mt-4">
+    <div class='empty-search-result container text-center bg-light mt-4'>
       <h2>There are no contacts starting with ...</h2>
     </div>
   </div>
 
   <!-- Else display no contacts placeholder -->
-  <div class="empty-contacts-placeholder bg-light container text-center">
-    <h2 class="mx-auto">There are no contacts.</h2>
+  <div class='empty-contacts-placeholder bg-light container text-center'>
+    <h2 class='mx-auto'>There are no contacts.</h2>
     <button
-      type="button"
-      class="view-switcher btn btn-lg btn-outline-primary mx-auto"
-      data-view="contact_form"
+      type='button'
+      class='view-switcher btn btn-lg btn-outline-primary mx-auto'
+      data-view='contact_form'
     >
       Add Contact
     </button>

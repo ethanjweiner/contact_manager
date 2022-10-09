@@ -3,7 +3,7 @@ import Model from '/javascripts/model.js';
 import View from '/javascripts/view.js';
 
 (async () => {
-  const TEMPLATES = ['home', 'contact_form'];
+  const TEMPLATES = ['home', 'contact_form', 'tag_form'];
   const PARTIALS = ['tags'];
 
   async function compileTemplates() {

@@ -8,12 +8,12 @@
 
 ### View
 
-- Two "Add Contact" buttons
-- Search bar
-- List of tags
-- CSS (or bootstrap?) animations for adding contact
+- Two "Add Contact" buttons X
+- Search bar X
+- List of tags X
+- CSS (or bootstrap?) animations for adding contact X
   - Accordion?
-- Add/edit contact form:
+- Add/edit contact form: X
   - Full name
   - Email address
   - Telephone number
@@ -32,10 +32,11 @@
 
 - Display modal
 
-### Searching Contacts
+### Viewing/Searching Contacts
 
 - Search by text in full name (Regex pattern amatching?)
 - Search updates should be realtime
+- Can also filter contacts based on tag (clicking on tag => render home + model update)
 
 ### Tagging Contacts
 
@@ -86,3 +87,8 @@ Functionality:
 ## ENDPOINTS
 
 - Visit `/doc` to view endpoints
+
+## IMPROVEMENTS
+
+- Separation of event listeners: Using one event listener feels too tight
+- Create separate view classes for different views; hide/show as needed?
