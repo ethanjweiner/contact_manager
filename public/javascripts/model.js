@@ -56,8 +56,24 @@ class Model {
       },
     });
 
-    const newContact = await response.json();
-    this.contacts.push(newContact);
+    if (response.ok) {
+      const newContact = await response.json();
+      this.contacts.push(newContact);
+      this.onContactUpdate();
+    }
+  }
+
+  async deleteContact(id) {
+    const response = await fetch(`/api/contacts/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (response.ok) {
+      this.contacts = this.contacts.filter(
+        (contact) => contact.id !== parseInt(id)
+      );
+      this.onContactUpdate();
+    }
   }
 }
 

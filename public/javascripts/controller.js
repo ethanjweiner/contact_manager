@@ -6,6 +6,7 @@ class Controller {
     this.model.bindContactsUpdate(this.handleContactsUpdate);
     this.view.bindNewContactSubmission(this.handleNewContactSubmission);
     this.view.bindSearch(this.handleSearch);
+    this.view.bindContactDeletion(this.handleDeletion);
   }
 
   handleContactsUpdate = () => {
@@ -21,12 +22,14 @@ class Controller {
 
   handleNewContactSubmission = async (newContact) => {
     await this.model.addContact(newContact);
-    this.handleContactsUpdate();
   };
 
   handleSearch = (name) => {
     this.model.filterByName(name);
-    this.handleContactsUpdate();
+  };
+
+  handleDeletion = async (contactId) => {
+    await this.model.deleteContact(contactId);
   };
 }
 

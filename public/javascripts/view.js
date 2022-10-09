@@ -72,6 +72,16 @@ class View {
     });
   }
 
+  bindContactDeletion(deleteContact) {
+    this.contactsList.addEventListener('click', (e) => {
+      const target = e.target;
+
+      if (target.classList.contains('delete')) {
+        deleteContact(target.dataset.contactId);
+      }
+    });
+  }
+
   formToData(form) {
     const data = {};
 

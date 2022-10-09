@@ -102,6 +102,8 @@ Functionality:
 - Separation of event listeners: Using one event listener feels too tight
 - Create separate view classes for different views; hide/show as needed?
 - Split up add/edit contact views? Or keep as one + populate dynamically?
+- Error handling: Raise an error? Display error message? Necessary at all?
+- Fetch server not always working?
 
 ## DESIGN PATTERNS
 
