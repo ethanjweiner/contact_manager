@@ -2,43 +2,50 @@ class View {
   constructor() {
     this.templates = Handlebars.templates;
     this.main = document.querySelector('main');
-    this.renderView('home');
+
+    // Pages
+    this.homePage = this.main.querySelector('#home');
+    this.addContactPage = this.main.querySelector('#add-contact');
+    this.editContactPage = this.main.querySelector('#edit-contact');
+    this.activePage = this.homePage;
+
+    // Forms
+    this.addContactForm = this.addContactPage.querySelector('form');
+    this.editContactForm = this.editContactPage.querySelector('form');
+
     this.bindListeners();
   }
 
-  renderView(viewName, { data } = {}) {
-    if (this.main.firstElementChild) this.main.firstElementChild.remove();
-    this.main.insertAdjacentHTML('afterbegin', this.templates[viewName](data));
+  renderPage(pageId) {
+    this.activePage.classList.add('hidden');
+    this.activePage = this.main.querySelector(pageId);
+    this.activePage.classList.remove('hidden');
+
+    if (this.activePage.contains(this.addContactForm)) {
+      this.renderContactForm(this.addContactForm);
+    }
+  }
+
+  renderContactForm(form, data = {}) {
+    if (form.firstElementChild) form.firstElementChild.remove();
+    form.insertAdjacentHTML('afterbegin', this.templates['contact_form'](data));
   }
 
   bindListeners() {
     document.addEventListener('click', (e) => {
       const target = e.target;
 
-      // View switching buttons
-      if (target.classList.contains('view-switcher')) {
-        this.renderView(target.dataset.view);
-      } else if (target.classList.contains('add-tag')) {
-        this.addTag();
+      if (target.classList.contains('page-switcher')) {
+        this.renderPage(target.dataset.page);
       }
     });
 
-    document.addEventListener('submit', (e) => {
+    this.addContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
       const target = e.target;
       const newContact = this.formToData(target);
-
-      switch (target.id) {
-        case 'contact-form':
-          this.addContact(newContact).then(() => this.renderView('home'));
-          break;
-        case 'tag-form':
-          this.addTag(data);
-          break;
-        default:
-          break;
-      }
+      this.addContact(newContact).then(() => this.renderPage('#home'));
     });
   }
 
@@ -64,8 +71,6 @@ class View {
 
     return data;
   }
-
-  addTag() {}
 }
 
 export default View;

@@ -2,15 +2,25 @@
   padding: 25px;
 }
 
-@keyframes fade-in {
+@keyframes slidein {
   from {
-    opacity: 0;
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0%);
   }
 }
 
-.view {
+.page {
+  display: block;
   opacity: 1;
-  animation: fade-in 1s ease;
+  animation: slidein 1s;  
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
 }
 
 a.dropdown-item {
@@ -24,3 +34,4 @@ select {
 .tag {
   cursor: pointer;
 }
+

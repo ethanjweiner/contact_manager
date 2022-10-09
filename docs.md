@@ -88,7 +88,12 @@ Functionality:
 
 - Visit `/doc` to view endpoints
 
-## IMPROVEMENTS
+## IMPROVEMENTS/QUESTIONS
 
 - Separation of event listeners: Using one event listener feels too tight
 - Create separate view classes for different views; hide/show as needed?
+- Split up add/edit contact views? Or keep as one + populate dynamically?
+
+## DESIGN PATTERNS
+
+- Try to have some elements rendered in the starter HTML; makes event listening easier
