@@ -2,6 +2,11 @@
   padding: 25px;
 }
 
+.page-switcher {
+  text-decoration: none;
+  cursor: pointer;
+}
+
 @keyframes slidein {
   from {
     transform: translateX(-100%);

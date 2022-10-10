@@ -21,9 +21,11 @@ class View {
     this.clearFiltersButton = this.homePage.querySelector('.clear-filters');
 
     // Rendering
+    this.#bindPageSwitches();
     this.renderPage('#home');
   }
 
+  // Rendering
   renderPage(pageId) {
     this.activePage.classList.add('hidden');
     this.activePage = this.main.querySelector(pageId);
@@ -35,20 +37,26 @@ class View {
     }
   }
 
-  insertTemplate(element, template, data = {}) {
+  renderContactsList(data) {
+    this.#insertTemplate(this.contactsList, 'contacts_list', data);
+  }
+
+  renderContactForm(form, data = {}) {
+    this.#insertTemplate(form, 'contact_form', data);
+  }
+
+  openEditor(contact) {
+    this.renderPage('#edit-contact');
+    this.renderContactForm(this.editContactForm, contact);
+  }
+
+  #insertTemplate(element, template, data = {}) {
     if (element.firstElementChild) element.firstElementChild.remove();
     element.insertAdjacentHTML('afterbegin', this.templates[template](data));
   }
 
-  renderContactsList(data) {
-    this.insertTemplate(this.contactsList, 'contacts_list', data);
-  }
-
-  renderContactForm(form, data = {}) {
-    this.insertTemplate(form, 'contact_form', data);
-  }
-
-  bindPageSwitches() {
+  // Event listeners
+  #bindPageSwitches() {
     document.addEventListener('click', (e) => {
       const target = e.target;
 
@@ -58,45 +66,44 @@ class View {
     });
   }
 
-  bindSwitchToEditor(supplyContact) {
+  onEditButtonClick(handler) {
     document.addEventListener('click', (e) => {
       const target = e.target;
 
       if (target.classList.contains('edit')) {
-        this.renderPage('#edit-contact');
         const contactId = parseInt(target.dataset.contactId);
-        this.renderContactForm(this.editContactForm, supplyContact(contactId));
+        handler(contactId);
       }
     });
   }
 
-  bindNewContactSubmission(addContact) {
+  onNewContactSubmission(handler) {
     this.addContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const target = e.target;
       const newContact = this.formToContact(target);
 
-      addContact(newContact).then(() => this.renderPage('#home'));
+      handler(newContact);
     });
   }
 
-  bindEditContactSubmission(editContact) {
+  onEditContactSubmission(handler) {
     this.editContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const target = e.target;
       const updatedContact = this.formToContact(target);
 
-      editContact(updatedContact).then(() => this.renderPage('#home'));
+      handler(updatedContact);
     });
   }
 
-  bindSearch(filterByName) {
+  onSearchInput(handler) {
     this.searchBox.addEventListener('input', (e) => {
-      filterByName(e.target.value);
+      handler(e.target.value);
     });
   }
 
-  bindContactDeletion(deleteContact) {
+  onContactDeletion(handler) {
     this.contactsList.addEventListener('click', (e) => {
       const target = e.target;
 
@@ -107,26 +114,26 @@ class View {
           return;
         }
 
-        deleteContact(contactId);
+        handler(contactId);
       }
     });
   }
 
-  bindTagLinkClick(onTagLinkClick) {
+  onTagClick(handler) {
     this.contactsList.addEventListener('click', (e) => {
       const target = e.target;
 
       if (target.classList.contains('tag-link')) {
         const tag = target.dataset.tag;
-        onTagLinkClick(tag);
+        handler(tag);
       }
     });
   }
 
-  bindClearFiltersClick(clearFilters) {
+  onClearFiltersClick(handler) {
     this.clearFiltersButton.addEventListener('click', (e) => {
       this.searchBox.value = '';
-      clearFilters();
+      handler();
     });
   }
 

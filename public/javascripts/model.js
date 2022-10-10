@@ -1,16 +1,27 @@
 class Model {
   constructor() {
-    this.fetchContacts().then((contacts) => {
-      this.contacts = contacts;
-      this.filteredContacts = this.contacts;
-      this.nameFilter = null;
-      this.tagFilter = null;
-      this.onContactsUpdate();
-    });
+    this.#loadContacts();
+    this.nameFilter = null;
+    this.tagFilter = null;
+    this.triggerUpdate = () => {};
   }
 
-  bindContactsUpdate(handler) {
-    this.onContactsUpdate = handler;
+  async #loadContacts() {
+    const response = await fetch('/api/contacts');
+    const contacts = await response.json();
+
+    this.contacts = contacts;
+    this.filteredContacts = this.contacts;
+
+    this.triggerUpdate();
+  }
+
+  onUpdate(handler) {
+    this.triggerUpdate = handler;
+  }
+
+  getContact(id) {
+    return this.contacts.find((contact) => contact.id === id);
   }
 
   filterByName(name) {
@@ -24,7 +35,7 @@ class Model {
       this.filteredContacts = this.contacts;
     }
 
-    this.onContactsUpdate();
+    this.triggerUpdate();
   }
 
   filterByTag(tag) {
@@ -38,13 +49,7 @@ class Model {
       this.filteredContacts = this.contacts;
     }
 
-    this.onContactsUpdate();
-  }
-
-  async fetchContacts() {
-    const response = await fetch('/api/contacts');
-    const contacts = await response.json();
-    return contacts;
+    this.triggerUpdate();
   }
 
   async addContact(contact) {
@@ -59,7 +64,9 @@ class Model {
     if (response.ok) {
       const newContact = await response.json();
       this.contacts.push(newContact);
-      this.onContactsUpdate();
+      this.triggerUpdate();
+    } else {
+      console.log(response);
     }
   }
 
@@ -79,7 +86,9 @@ class Model {
         (contact) => contact.id === parseInt(id)
       );
       this.contacts[index] = updatedContact;
-      this.onContactsUpdate();
+      this.triggerUpdate();
+    } else {
+      console.log(response);
     }
   }
 
@@ -92,17 +101,17 @@ class Model {
       this.contacts = this.contacts.filter(
         (contact) => contact.id !== parseInt(id)
       );
-      this.onContactsUpdate();
-    }
-  }
+      this.filteredContacts = this.contacts;
 
-  getContact(id) {
-    return this.contacts.find((contact) => contact.id === id);
+      this.triggerUpdate();
+    } else {
+      console.log(response);
+    }
   }
 
   reset() {
     this.filteredContacts = this.contacts;
-    this.onContactsUpdate();
+    this.triggerUpdate();
   }
 }
 

@@ -88,8 +88,14 @@ Functionality:
 5. Contact deletion X
 6. Contact editing X
 7. Tags functionality X
-8. Improve code
-9. Add final functionality
+8. Refactoring
+  - Naming
+  - Navigation heading as link
+  - Consistent `id` type (string or integer)
+  - Create better helpers (esp. view helpers)
+9. Add additional functionality
+  - Custom client-side validation
+  - Better tag selection
 
 ## IMPLEMENTATION IDEAS
 
@@ -117,8 +123,22 @@ Functionality:
 - Better tagging feature?
 - Switch to fetch every time?
 
+## DISCUSSION POINTS
+
+- Handling page switching
+  - Showing/hiding VS insertion/deletion?
+  - Separate classes/objects for each page?
+  - My approach: Treat like a single page, show/hide elements
+- Maintain a local copy/cache of contacts VS retrieving contacts from server whenever needed
+- Templating in separate files
+- MVC Pattern: Distinct pieces of functionality
+  - e.g. Event listeners = ONLY for listening to events
+- Difficulty: Knowing what parameters represent?
+  - Just pass event to handler functions?
+
 ## DESIGN PATTERNS
 
 - Try to have some elements rendered in the starter HTML; makes event listening easier
 - Have a few helper methods ready to go (abstract into module?)
 - Decided to keep contact filtering on the view (closely tied to view)
+- Cache contacts locally

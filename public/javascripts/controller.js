@@ -3,18 +3,20 @@ class Controller {
     this.model = model;
     this.view = view;
 
-    this.model.bindContactsUpdate(this.handleContactsUpdate);
-    this.view.bindPageSwitches();
-    this.view.bindNewContactSubmission(this.handleNewContactSubmission);
-    this.view.bindEditContactSubmission(this.handleEditContactSubmission);
-    this.view.bindSearch(this.handleSearch);
-    this.view.bindContactDeletion(this.handleDeletion);
-    this.view.bindSwitchToEditor(this.supplyContact);
-    this.view.bindTagLinkClick(this.handleTagLinkClick);
-    this.view.bindClearFiltersClick(this.handleClearFiltersClick);
+    // Handle model updates
+    this.model.onUpdate(this.handleModelUpdate);
+
+    // Handle view events
+    this.view.onNewContactSubmission(this.handleNewContact);
+    this.view.onEditContactSubmission(this.handleEditContact);
+    this.view.onSearchInput(this.handleSearchInput);
+    this.view.onContactDeletion(this.handleDeletion);
+    this.view.onEditButtonClick(this.handleEditButtonClick);
+    this.view.onTagClick(this.handleTagClick);
+    this.view.onClearFiltersClick(this.handleClearFiltersClick);
   }
 
-  handleContactsUpdate = () => {
+  handleModelUpdate = () => {
     this.view.renderContactsList({
       contacts: this.model.contacts.length ? this.model.contacts : null,
       filteredContacts: this.model.filteredContacts.length
@@ -25,15 +27,17 @@ class Controller {
     });
   };
 
-  handleNewContactSubmission = async (newContact) => {
+  handleNewContact = async (newContact) => {
     await this.model.addContact(newContact);
+    this.view.renderPage('#home');
   };
 
-  handleEditContactSubmission = async (updatedContact) => {
+  handleEditContact = async (updatedContact) => {
     await this.model.editContact(updatedContact);
+    this.view.renderPage('#home');
   };
 
-  handleSearch = (name) => {
+  handleSearchInput = (name) => {
     this.model.filterByName(name);
   };
 
@@ -41,7 +45,7 @@ class Controller {
     await this.model.deleteContact(contactId);
   };
 
-  supplyContact = (contactId) => {
+  handleEditButtonClick = (contactId) => {
     const contact = this.model.getContact(contactId);
 
     if (!contact) {
@@ -49,10 +53,12 @@ class Controller {
       return;
     }
 
+    this.view.openEditor(contact);
+
     return contact;
   };
 
-  handleTagLinkClick = (tag) => {
+  handleTagClick = (tag) => {
     this.model.filterByTag(tag);
   };
 
