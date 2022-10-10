@@ -7,17 +7,17 @@ class Controller {
     this.model.onUpdate(this.handleModelUpdate);
 
     // Handle view events
-    this.view.onNewContactSubmission(this.handleNewContact);
-    this.view.onEditContactSubmission(this.handleEditContact);
-    this.view.onSearchInput(this.handleSearchInput);
-    this.view.onContactDeletion(this.handleDeletion);
-    this.view.onEditButtonClick(this.handleEditButtonClick);
-    this.view.onTagClick(this.handleTagClick);
-    this.view.onClearFiltersClick(this.handleClearFiltersClick);
+    this.view.addContactPage.onSubmission(this.handleNewContact);
+    this.view.editContactPage.onSubmission(this.handleEditContact);
+    this.view.homePage.onSearchInput(this.handleSearchInput);
+    this.view.homePage.onContactDeletion(this.handleDeletion);
+    this.view.homePage.onEditButtonClick(this.handleEditButtonClick);
+    this.view.homePage.onTagClick(this.handleTagClick);
+    this.view.homePage.onClearFiltersClick(this.handleClearFiltersClick);
   }
 
   handleModelUpdate = () => {
-    this.view.renderContactsList({
+    this.view.homePage.renderContactsList({
       contacts: this.model.contacts.length ? this.model.contacts : null,
       filteredContacts: this.model.filteredContacts.length
         ? this.model.filteredContacts
@@ -29,12 +29,12 @@ class Controller {
 
   handleNewContact = async (newContact) => {
     await this.model.addContact(newContact);
-    this.view.renderPage('#home');
+    this.view.showPage(this.view.homePage);
   };
 
   handleEditContact = async (updatedContact) => {
     await this.model.editContact(updatedContact);
-    this.view.renderPage('#home');
+    this.view.showPage(this.view.editContactPage);
   };
 
   handleSearchInput = (name) => {
@@ -53,7 +53,7 @@ class Controller {
       return;
     }
 
-    this.view.openEditor(contact);
+    this.view.showPage(this.view.editContactPage, contact);
 
     return contact;
   };
