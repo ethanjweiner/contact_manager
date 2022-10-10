@@ -5,12 +5,12 @@ class Model {
       this.filteredContacts = this.contacts;
       this.nameFilter = null;
       this.tagFilter = null;
-      this.onContactUpdate();
+      this.onContactsUpdate();
     });
   }
 
   bindContactsUpdate(handler) {
-    this.onContactUpdate = handler;
+    this.onContactsUpdate = handler;
   }
 
   filterByName(name) {
@@ -24,7 +24,7 @@ class Model {
       this.filteredContacts = this.contacts;
     }
 
-    this.onContactUpdate();
+    this.onContactsUpdate();
   }
 
   filterByTag(tag) {
@@ -32,13 +32,13 @@ class Model {
 
     if (tag) {
       this.filteredContacts = this.contacts.filter(({ tags }) => {
-        return tags.toLowerCase().includes(tag.toLowerCase());
+        return tags.includes(tag);
       });
     } else {
       this.filteredContacts = this.contacts;
     }
 
-    this.onContactUpdate();
+    this.onContactsUpdate();
   }
 
   async fetchContacts() {
@@ -59,7 +59,27 @@ class Model {
     if (response.ok) {
       const newContact = await response.json();
       this.contacts.push(newContact);
-      this.onContactUpdate();
+      this.onContactsUpdate();
+    }
+  }
+
+  async editContact(contact) {
+    const { id } = contact;
+    const response = await fetch(`/api/contacts/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(contact),
+      headers: {
+        'Content-Type': 'application/json; charset="utf-8"',
+      },
+    });
+
+    if (response.ok) {
+      const updatedContact = await response.json();
+      const index = this.contacts.findIndex(
+        (contact) => contact.id === parseInt(id)
+      );
+      this.contacts[index] = updatedContact;
+      this.onContactsUpdate();
     }
   }
 
@@ -72,8 +92,17 @@ class Model {
       this.contacts = this.contacts.filter(
         (contact) => contact.id !== parseInt(id)
       );
-      this.onContactUpdate();
+      this.onContactsUpdate();
     }
+  }
+
+  getContact(id) {
+    return this.contacts.find((contact) => contact.id === id);
+  }
+
+  reset() {
+    this.filteredContacts = this.contacts;
+    this.onContactsUpdate();
   }
 }
 

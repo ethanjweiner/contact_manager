@@ -85,9 +85,11 @@ Functionality:
     - Model
     - Controller
 4. Contact search/filtering X
-5. Contact deletion
-6. Contact editing
-7. Tags functionality
+5. Contact deletion X
+6. Contact editing X
+7. Tags functionality X
+8. Improve code
+9. Add final functionality
 
 ## IMPLEMENTATION IDEAS
 
@@ -103,7 +105,17 @@ Functionality:
 - Create separate view classes for different views; hide/show as needed?
 - Split up add/edit contact views? Or keep as one + populate dynamically?
 - Error handling: Raise an error? Display error message? Necessary at all?
+- More robust input validation?
 - Fetch server not always working?
+- General code cleanup
+- Make navigation heading a link to home page
+- Fix flexbox white space at end
+- Best practices for converting between integers & string (w/ ids)?
+  - Could get unpredictable sometimes...
+- Abstract commonality from add/edit contact forms & listeners?
+- Retrieve updated contacts every time? Or just perform updates on client?
+- Better tagging feature?
+- Switch to fetch every time?
 
 ## DESIGN PATTERNS
 

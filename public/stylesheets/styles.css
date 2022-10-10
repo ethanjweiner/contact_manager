@@ -31,10 +31,11 @@ select {
   width: 150px;
 }
 
-.tag {
+.tag-link {
   cursor: pointer;
+  text-decoration: none;
 }
 
-.card {
-  width: 225px;
+.tag-link:hover {
+  color: white;
 }

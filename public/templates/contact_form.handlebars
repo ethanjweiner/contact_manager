@@ -7,6 +7,8 @@
         class='form-control'
         name='full_name'
         id='full_name'
+        value='{{full_name}}'
+        placeholder='Ethan Weiner'
         required
       />
     </div>
@@ -17,6 +19,8 @@
         class='form-control'
         name='email'
         id='email'
+        placeholder='ethan@gmail.com'
+        value='{{email}}'
         required
       />
     </div>
@@ -29,14 +33,30 @@
         class='form-control'
         name='phone_number'
         id='phone_number'
+        placeholder='123-123-1234'
+        value='{{phone_number}}'
         required
       />
     </div>
     <div class='mb-3 col-md-6'>
       <label for='tags' class='form-label'>Tags</label>
-      <input type='text' class='form-control' name='tags' id='tags' required />
+      <input
+        type='text'
+        class='form-control'
+        name='tags'
+        id='tags'
+        placeholder='work,home,school'
+        pattern='(\w+,)*\w+'
+        value='{{tags}}'
+        required
+      />
     </div>
   </div>
+
+  {{! Submit `id` for contact updates }}
+  {{#if id}}
+    <input type='hidden' name='id' value='{{id}}' />
+  {{/if}}
 
   <div class='d-flex'>
     <div class='col-6'>

@@ -17,7 +17,8 @@ class View {
     this.editContactForm = this.editContactPage.querySelector('form');
     this.searchBox = this.homePage.querySelector('#search');
 
-    this.bindPageSwitches();
+    // Buttons
+    this.clearFiltersButton = this.homePage.querySelector('.clear-filters');
 
     // Rendering
     this.renderPage('#home');
@@ -28,6 +29,7 @@ class View {
     this.activePage = this.main.querySelector(pageId);
     this.activePage.classList.remove('hidden');
 
+    // Render contact form if necessary
     if (this.activePage === this.addContactPage) {
       this.renderContactForm(this.addContactForm);
     }
@@ -56,13 +58,35 @@ class View {
     });
   }
 
+  bindSwitchToEditor(supplyContact) {
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+
+      if (target.classList.contains('edit')) {
+        this.renderPage('#edit-contact');
+        const contactId = parseInt(target.dataset.contactId);
+        this.renderContactForm(this.editContactForm, supplyContact(contactId));
+      }
+    });
+  }
+
   bindNewContactSubmission(addContact) {
     this.addContactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const target = e.target;
-      const newContact = this.formToData(target);
+      const newContact = this.formToContact(target);
 
       addContact(newContact).then(() => this.renderPage('#home'));
+    });
+  }
+
+  bindEditContactSubmission(editContact) {
+    this.editContactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const target = e.target;
+      const updatedContact = this.formToContact(target);
+
+      editContact(updatedContact).then(() => this.renderPage('#home'));
     });
   }
 
@@ -77,16 +101,45 @@ class View {
       const target = e.target;
 
       if (target.classList.contains('delete')) {
-        deleteContact(target.dataset.contactId);
+        const { name, contactId } = target.dataset;
+
+        if (!confirm(`Are you sure you want to delete ${name}?`)) {
+          return;
+        }
+
+        deleteContact(contactId);
       }
     });
   }
 
-  formToData(form) {
+  bindTagLinkClick(onTagLinkClick) {
+    this.contactsList.addEventListener('click', (e) => {
+      const target = e.target;
+
+      if (target.classList.contains('tag-link')) {
+        const tag = target.dataset.tag;
+        onTagLinkClick(tag);
+      }
+    });
+  }
+
+  bindClearFiltersClick(clearFilters) {
+    this.clearFiltersButton.addEventListener('click', (e) => {
+      this.searchBox.value = '';
+      clearFilters();
+    });
+  }
+
+  // Helpers
+  formToContact(form) {
     const data = {};
 
     for (const [key, val] of new FormData(form).entries()) {
-      data[key] = val;
+      if (key === 'tags') {
+        data[key] = val.split(',');
+      } else {
+        data[key] = val;
+      }
     }
 
     return data;
