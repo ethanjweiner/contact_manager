@@ -10,29 +10,29 @@ class Model {
     const response = await fetch('/api/contacts');
     const contacts = await response.json();
 
-    this.contacts = contacts;
-    this.filteredContacts = this.contacts;
+    this.allContacts = contacts;
+    this.filteredContacts = this.allContacts;
 
     this.triggerUpdate();
   }
 
-  onUpdate(handler) {
+  onContactsUpdate(handler) {
     this.triggerUpdate = handler;
   }
 
   getContact(id) {
-    return this.contacts.find((contact) => contact.id === id);
+    return this.allContacts.find((contact) => contact.id === id);
   }
 
   filterByName(name) {
     this.nameFilter = name;
 
     if (name) {
-      this.filteredContacts = this.contacts.filter(({ full_name }) => {
+      this.filteredContacts = this.allContacts.filter(({ full_name }) => {
         return full_name.toLowerCase().includes(name.toLowerCase());
       });
     } else {
-      this.filteredContacts = this.contacts;
+      this.filteredContacts = this.allContacts;
     }
 
     this.triggerUpdate();
@@ -42,11 +42,11 @@ class Model {
     this.tagFilter = tag;
 
     if (tag) {
-      this.filteredContacts = this.contacts.filter(({ tags }) => {
+      this.filteredContacts = this.allContacts.filter(({ tags }) => {
         return tags.includes(tag);
       });
     } else {
-      this.filteredContacts = this.contacts;
+      this.filteredContacts = this.allContacts;
     }
 
     this.triggerUpdate();
@@ -63,7 +63,7 @@ class Model {
 
     if (response.ok) {
       const newContact = await response.json();
-      this.contacts.push(newContact);
+      this.allContacts.push(newContact);
       this.triggerUpdate();
     } else {
       console.log(response);
@@ -82,10 +82,10 @@ class Model {
 
     if (response.ok) {
       const updatedContact = await response.json();
-      const index = this.contacts.findIndex(
+      const index = this.allContacts.findIndex(
         (contact) => contact.id === parseInt(id)
       );
-      this.contacts[index] = updatedContact;
+      this.allContacts[index] = updatedContact;
       this.triggerUpdate();
     } else {
       console.log(response);
@@ -98,10 +98,10 @@ class Model {
     });
 
     if (response.ok) {
-      this.contacts = this.contacts.filter(
+      this.allContacts = this.allContacts.filter(
         (contact) => contact.id !== parseInt(id)
       );
-      this.filteredContacts = this.contacts;
+      this.filteredContacts = this.allContacts;
 
       this.triggerUpdate();
     } else {
@@ -110,7 +110,7 @@ class Model {
   }
 
   reset() {
-    this.filteredContacts = this.contacts;
+    this.filteredContacts = this.allContacts;
     this.triggerUpdate();
   }
 }

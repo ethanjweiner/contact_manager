@@ -4,21 +4,21 @@ class Controller {
     this.view = view;
 
     // Handle model updates
-    this.model.onUpdate(this.handleModelUpdate);
+    this.model.onContactsUpdate(this.handleContactsUpdate);
 
     // Handle view events
     this.view.addContactPage.onSubmission(this.handleNewContact);
     this.view.editContactPage.onSubmission(this.handleEditContact);
     this.view.homePage.onSearchInput(this.handleSearchInput);
-    this.view.homePage.onContactDeletion(this.handleDeletion);
+    this.view.homePage.onDeleteButtonClick(this.handleDeletion);
     this.view.homePage.onEditButtonClick(this.handleEditButtonClick);
     this.view.homePage.onTagClick(this.handleTagClick);
     this.view.homePage.onClearFiltersClick(this.handleClearFiltersClick);
   }
 
-  handleModelUpdate = () => {
+  handleContactsUpdate = () => {
     this.view.homePage.renderContactsList({
-      contacts: this.model.contacts.length ? this.model.contacts : null,
+      hasContacts: this.model.allContacts.length > 0,
       filteredContacts: this.model.filteredContacts.length
         ? this.model.filteredContacts
         : null,

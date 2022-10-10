@@ -145,4 +145,4 @@ Next Up:
 - Cache contacts locally
 - Each `Page` is a class
 - Each part of the `Model` is a class
-- Pass events only
+- Extract data from view at `page` directly (view events should pass data ready to go)

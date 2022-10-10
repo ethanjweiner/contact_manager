@@ -4,7 +4,6 @@ class Page {
     this.page = pageElement;
   }
 
-  // Override as needed to display different elements
   show() {
     this.page.classList.remove('hidden');
   }
@@ -31,8 +30,16 @@ class HomePage extends Page {
     this.clearFiltersButton = this.select('.clear-filters');
   }
 
+  // Rendering
   renderContactsList(data) {
     this.insertTemplate(this.contactsList, 'contacts_list', data);
+  }
+
+  // Event Listeners
+  onSearchInput(handler) {
+    this.searchBox.addEventListener('input', (e) => {
+      handler(e.target.value);
+    });
   }
 
   onEditButtonClick(handler) {
@@ -46,13 +53,7 @@ class HomePage extends Page {
     });
   }
 
-  onSearchInput(handler) {
-    this.searchBox.addEventListener('input', (e) => {
-      handler(e.target.value);
-    });
-  }
-
-  onContactDeletion(handler) {
+  onDeleteButtonClick(handler) {
     this.contactsList.addEventListener('click', (e) => {
       const target = e.target;
 
@@ -93,15 +94,18 @@ class ContactPage extends Page {
     this.form = this.select('form');
   }
 
+  // Add contact form rendering to `show`
   show(contact = {}) {
     super.show();
     this.renderContactForm(contact);
   }
 
+  // Rendering
   renderContactForm(contact = {}) {
     this.insertTemplate(this.form, 'contact_form', contact);
   }
 
+  // Event Listeners
   onSubmission(handler) {
     this.form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -111,6 +115,7 @@ class ContactPage extends Page {
     });
   }
 
+  // Helpers
   formToContact(form) {
     const data = {};
 
