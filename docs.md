@@ -96,6 +96,7 @@ Functionality:
 9. Add additional functionality
   - Custom client-side validation
   - Better tag selection
+10. Review project & list most relevant design patterns
 
 ## IMPLEMENTATION IDEAS
 
@@ -107,21 +108,21 @@ Functionality:
 
 ## IMPROVEMENTS/QUESTIONS
 
-- Separation of event listeners: Using one event listener feels too tight
-- Create separate view classes for different views; hide/show as needed?
-- Split up add/edit contact views? Or keep as one + populate dynamically?
-- Error handling: Raise an error? Display error message? Necessary at all?
+- Separation of event listeners: Using one event listener feels too tight X
+- Create separate view classes for different views; hide/show as needed? X
+- General code cleanup X
+- Make navigation heading a link to home page X
+- Fix flexbox white space at end X
+- Abstract commonality from add/edit contact forms & listeners? X
+- Add debouncing?
+
+Next Up:
+- For view event handlers, always pass events -> extract from controller
 - More robust input validation?
-- Fetch server not always working?
-- General code cleanup
-- Make navigation heading a link to home page
-- Fix flexbox white space at end
-- Best practices for converting between integers & string (w/ ids)?
-  - Could get unpredictable sometimes...
-- Abstract commonality from add/edit contact forms & listeners?
-- Retrieve updated contacts every time? Or just perform updates on client?
-- Better tagging feature?
-- Switch to fetch every time?
+- Consider removing cached data
+- Error handling: Raise an error? Display error message? Necessary at all?
+- Consistent id types: string VS integer
+- Review other projects: Joey, Jason, Wayne, etc.
 
 ## DISCUSSION POINTS
 
@@ -142,3 +143,6 @@ Functionality:
 - Have a few helper methods ready to go (abstract into module?)
 - Decided to keep contact filtering on the view (closely tied to view)
 - Cache contacts locally
+- Each `Page` is a class
+- Each part of the `Model` is a class
+- Pass events only

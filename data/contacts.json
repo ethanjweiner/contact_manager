@@ -1,0 +1,31 @@
+[
+  {
+    "full_name": "Ethan",
+    "phone_number": "774-327-7082",
+    "email": "ethanweiner20@gmail.com",
+    "tags": [
+      "SWE",
+      "running",
+      "family"
+    ],
+    "id": 1
+  },
+  {
+    "full_name": "Dad",
+    "phone_number": "2351243521346",
+    "email": "dad@gmail.com",
+    "tags": [
+      "Tag1"
+    ],
+    "id": 2
+  },
+  {
+    "full_name": "Grace",
+    "phone_number": "23412365",
+    "email": "gweins@gmail.com",
+    "tags": [
+      "etgasdfg"
+    ],
+    "id": 3
+  }
+]
