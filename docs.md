@@ -114,16 +114,17 @@ Functionality:
 - Make navigation heading a link to home page X
 - Fix flexbox white space at end X
 - Abstract commonality from add/edit contact forms & listeners? X
-- Add debouncing?
 
 Next Up:
 - For view event handlers, always pass events -> extract from controller X
   - Decided to pass data itself. View should handle event extraction.
 - More robust input validation?
-- Consider removing cached data
-- Error handling: Raise an error? Display error message? Necessary at all?
+- Consider removing cached data X
+- Error handling: Raise an error? Display error message? Necessary at all? X
 - Consistent id types: string VS integer X
-- Review other projects: Joey, Jason, Wayne, etc.
+- Review other projects: Joey, Jason, Wayne, etc. X
+- Simplify Handlebars setup? (`Handlebars.partials = Handlebars.templates`?)
+- Review/modify Handlebars templates if needed
 
 ## DISCUSSION POINTS
 
@@ -150,3 +151,6 @@ Next Up:
 - Extract data from view at `page` directly (view events should pass data ready to go)
 - Use custom `ajax` helper
 - Wrap asynchronous calls w/ try...catch
+- Caching data is useful, but comes at the cost of more overhead -- cache for basic filtering, but refresh upon major update
+- Keep the view "dumb"
+- Try writing the model first

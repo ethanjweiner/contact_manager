@@ -5,6 +5,7 @@ class Controller {
 
     // Handle model updates
     this.model.onContactsUpdate(this.handleContactsUpdate);
+    this.handleContactsUpdate();
 
     // Handle view events
     this.view.addContactPage.onSubmission(this.handleNewContact);
@@ -13,21 +14,14 @@ class Controller {
     this.view.homePage.onDeleteButtonClick(this.handleDeletion);
     this.view.homePage.onEditButtonClick(this.handleEditButtonClick);
     this.view.homePage.onTagClick(this.handleTagClick);
-    this.view.homePage.onClearFiltersClick(this.handleClearFiltersClick);
+    this.view.homePage.onClearFiltersClick(this.renderAllContacts);
   }
 
-  handleContactsUpdate = () => {
-    this.view.homePage.renderContactsList({
-      hasContacts: this.model.allContacts.length > 0,
-      filteredContacts: this.model.filteredContacts.length
-        ? this.model.filteredContacts
-        : null,
-      nameFilter: this.model.nameFilter,
-      tagFilter: this.model.tagFilter,
-    });
-
-    this.model.loadTags();
-    this.view.homePage.renderTags(this.model.tags);
+  handleContactsUpdate = async () => {
+    await this.model.refreshContacts();
+    this.model.refreshTags();
+    this.renderAllContacts();
+    this.renderAllTags();
   };
 
   handleNewContact = async (newContact) => {
@@ -40,10 +34,6 @@ class Controller {
     this.view.showPage(this.view.homePage);
   };
 
-  handleSearchInput = (name) => {
-    this.model.filterByName(name);
-  };
-
   handleDeletion = async (contactId) => {
     await this.model.deleteContact(contactId);
   };
@@ -52,7 +42,7 @@ class Controller {
     const contact = this.model.getContact(contactId);
 
     if (!contact) {
-      console.log('Contact could not be found.');
+      alert('Contact to edit could not be found.');
       return;
     }
 
@@ -61,12 +51,32 @@ class Controller {
     return contact;
   };
 
-  handleTagClick = (tag) => {
-    this.model.filterByTag(tag);
+  handleSearchInput = (name) => {
+    const contacts = this.model.filterByName(name);
+    this.view.homePage.renderContactsList({
+      hasContacts: this.model.contacts.length > 0,
+      contacts: contacts.length ? contacts : null,
+      nameFilter: name,
+    });
   };
 
-  handleClearFiltersClick = () => {
-    this.model.reset();
+  handleTagClick = (tag) => {
+    const contacts = this.model.filterByTag(tag);
+    this.view.homePage.renderContactsList({
+      hasContacts: this.model.contacts.length > 0,
+      contacts: contacts.length ? contacts : null,
+    });
+  };
+
+  renderAllContacts = () => {
+    this.view.homePage.renderContactsList({
+      hasContacts: this.model.contacts.length > 0,
+      contacts: this.model.contacts,
+    });
+  };
+
+  renderAllTags = () => {
+    this.view.homePage.renderTags(this.model.tags);
   };
 }
 

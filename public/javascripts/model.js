@@ -2,93 +2,61 @@ class Model {
   static #API_PATH = '/api/contacts';
 
   constructor() {
-    this.#loadContacts();
-    this.nameFilter = null;
-    this.tagFilter = null;
+    this.contacts = [];
     this.tags = [];
-    this.triggerContactsUpdate = () => {};
+    this.refreshContacts();
   }
 
   // Update handling
-  onContactsUpdate(handler) {
+  async onContactsUpdate(handler) {
     this.triggerContactsUpdate = handler;
   }
 
   // Contact filtering
   filterByName(name) {
-    this.nameFilter = name;
+    if (!name) return this.contacts;
 
-    if (name) {
-      this.filteredContacts = this.allContacts.filter(({ full_name }) => {
-        return full_name.toLowerCase().startsWith(name.toLowerCase());
-      });
-    } else {
-      this.filteredContacts = this.allContacts;
-    }
-
-    this.triggerContactsUpdate();
+    return this.contacts.filter(({ full_name }) => {
+      return full_name.toLowerCase().startsWith(name.toLowerCase());
+    });
   }
 
   filterByTag(tag) {
-    this.tagFilter = tag;
+    if (!tag) return this.contacts;
 
-    if (tag) {
-      this.filteredContacts = this.allContacts.filter(({ tags }) => {
-        return tags.includes(tag);
-      });
-    } else {
-      this.filteredContacts = this.allContacts;
-    }
-
-    this.triggerContactsUpdate();
+    return this.contacts.filter(({ tags }) => {
+      return tags.includes(tag);
+    });
   }
 
   // API interactions
-  async #loadContacts() {
-    this.allContacts = await this.ajax('GET', '');
-    this.filteredContacts = this.allContacts;
-
-    this.triggerContactsUpdate();
+  async refreshContacts() {
+    this.contacts = await this.ajax('GET', '');
   }
 
   async addContact(contact) {
-    const newContact = await this.ajax('POST', '', contact);
-    this.allContacts.push(newContact);
+    await this.ajax('POST', '', contact);
     this.triggerContactsUpdate();
   }
 
   async editContact(contact) {
     const { id } = contact;
-    const updatedContact = await this.ajax('PUT', `/${id}`, contact);
-    const index = this.allContacts.findIndex(
-      (contact) => contact.id === parseInt(id)
-    );
-    this.allContacts[index] = updatedContact;
+    await this.ajax('PUT', `/${id}`, contact);
     this.triggerContactsUpdate();
   }
 
   async deleteContact(id) {
     await this.ajax('DELETE', `/${id}`);
-    this.allContacts = this.allContacts.filter(
-      (contact) => contact.id !== parseInt(id)
-    );
-    this.filteredContacts = this.allContacts;
-
     this.triggerContactsUpdate();
   }
 
   // Helpers
-  loadTags() {
-    this.tags = [...new Set(this.allContacts.flatMap(({ tags }) => tags))];
+  refreshTags() {
+    this.tags = [...new Set(this.contacts.flatMap(({ tags }) => tags))];
   }
 
   getContact(id) {
-    return this.allContacts.find((contact) => contact.id === id);
-  }
-
-  reset() {
-    this.filteredContacts = this.allContacts;
-    this.triggerContactsUpdate();
+    return this.contacts.find((contact) => contact.id === id);
   }
 
   async ajax(method, endpoint, data = null) {

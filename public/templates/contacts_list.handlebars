@@ -1,8 +1,8 @@
 {{#if hasContacts}}
   <div class='mt-4'>
-    {{#if filteredContacts}}
+    {{#if contacts}}
       <div class='search-result d-flex flex-wrap justify-content-left'>
-        {{#each filteredContacts}}
+        {{#each contacts}}
           {{> contact}}
         {{/each}}
       </div>
