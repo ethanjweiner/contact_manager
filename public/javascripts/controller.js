@@ -4,8 +4,7 @@ class Controller {
     this.view = view;
 
     // Handle model updates
-    this.model.onContactsUpdate(this.handleContactsUpdate);
-    this.handleContactsUpdate();
+    this.model.onContactsUpdate(this.loadModelAndRender);
 
     // Handle view events
     this.view.addContactPage.onSubmission(this.handleNewContact);
@@ -15,15 +14,19 @@ class Controller {
     this.view.homePage.onEditButtonClick(this.handleEditButtonClick);
     this.view.homePage.onTagClick(this.handleTagClick);
     this.view.homePage.onClearFiltersClick(this.renderAllContacts);
+
+    // Initial loading + rendering
+    this.loadModelAndRender();
   }
 
-  handleContactsUpdate = async () => {
+  loadModelAndRender = async () => {
     await this.model.refreshContacts();
     this.model.refreshTags();
     this.renderAllContacts();
     this.renderAllTags();
   };
 
+  // View event handlers
   handleNewContact = async (newContact) => {
     await this.model.addContact(newContact);
     this.view.showPage(this.view.homePage);
@@ -53,24 +56,28 @@ class Controller {
 
   handleSearchInput = (name) => {
     const contacts = this.model.filterByName(name);
-    this.view.homePage.renderContactsList({
+    this.view.homePage.renderContacts({
       hasContacts: this.model.contacts.length > 0,
-      contacts: contacts.length ? contacts : null,
+      hasDisplayableContacts: contacts.length > 0,
+      contacts,
       nameFilter: name,
     });
   };
 
   handleTagClick = (tag) => {
     const contacts = this.model.filterByTag(tag);
-    this.view.homePage.renderContactsList({
+    this.view.homePage.renderContacts({
       hasContacts: this.model.contacts.length > 0,
-      contacts: contacts.length ? contacts : null,
+      hasDisplayableContacts: contacts.length > 0,
+      contacts,
     });
   };
 
+  // Helpers
   renderAllContacts = () => {
-    this.view.homePage.renderContactsList({
+    this.view.homePage.renderContacts({
       hasContacts: this.model.contacts.length > 0,
+      hasDisplayableContacts: this.model.contacts.length > 0,
       contacts: this.model.contacts,
     });
   };

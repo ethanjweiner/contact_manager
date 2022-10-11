@@ -32,8 +32,8 @@ class HomePage extends Page {
   }
 
   // Rendering
-  renderContactsList(data) {
-    this.insertTemplate(this.contactsList, 'contacts_list', data);
+  renderContacts(data) {
+    this.insertTemplate(this.contactsList, 'contacts_page', data);
   }
 
   renderTags(tags) {

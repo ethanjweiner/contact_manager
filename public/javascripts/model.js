@@ -4,7 +4,6 @@ class Model {
   constructor() {
     this.contacts = [];
     this.tags = [];
-    this.refreshContacts();
   }
 
   // Update handling

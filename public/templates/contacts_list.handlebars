@@ -1,6 +1,5 @@
-{{#if hasContacts}}
   <div class='mt-4'>
-    {{#if contacts}}
+    {{#if hasDisplayableContacts}}
       <div class='search-result d-flex flex-wrap justify-content-left'>
         {{#each contacts}}
           {{> contact}}
@@ -12,16 +11,3 @@
       </div>
     {{/if}}
   </div>
-
-{{else}}
-  <div class='empty-contacts-placeholder bg-light container text-center'>
-    <h2 class='mx-auto'>There are no contacts.</h2>
-    <button
-      type='button'
-      class='page-switcher btn btn-lg btn-outline-primary mx-auto'
-      data-page='addContactPage'
-    >
-      Add Contact
-    </button>
-  </div>
-{{/if}}
