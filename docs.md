@@ -117,11 +117,12 @@ Functionality:
 - Add debouncing?
 
 Next Up:
-- For view event handlers, always pass events -> extract from controller
+- For view event handlers, always pass events -> extract from controller X
+  - Decided to pass data itself. View should handle event extraction.
 - More robust input validation?
 - Consider removing cached data
 - Error handling: Raise an error? Display error message? Necessary at all?
-- Consistent id types: string VS integer
+- Consistent id types: string VS integer X
 - Review other projects: Joey, Jason, Wayne, etc.
 
 ## DISCUSSION POINTS
