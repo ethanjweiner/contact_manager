@@ -25,6 +25,9 @@ class Controller {
       nameFilter: this.model.nameFilter,
       tagFilter: this.model.tagFilter,
     });
+
+    this.model.loadTags();
+    this.view.homePage.renderTags(this.model.tags);
   };
 
   handleNewContact = async (newContact) => {
@@ -34,7 +37,7 @@ class Controller {
 
   handleEditContact = async (updatedContact) => {
     await this.model.editContact(updatedContact);
-    this.view.showPage(this.view.editContactPage);
+    this.view.showPage(this.view.homePage);
   };
 
   handleSearchInput = (name) => {

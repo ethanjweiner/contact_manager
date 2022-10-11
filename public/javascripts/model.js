@@ -3,7 +3,8 @@ class Model {
     this.#loadContacts();
     this.nameFilter = null;
     this.tagFilter = null;
-    this.triggerUpdate = () => {};
+    this.tags = [];
+    this.triggerContactsUpdate = () => {};
   }
 
   async #loadContacts() {
@@ -13,11 +14,15 @@ class Model {
     this.allContacts = contacts;
     this.filteredContacts = this.allContacts;
 
-    this.triggerUpdate();
+    this.triggerContactsUpdate();
+  }
+
+  loadTags() {
+    this.tags = [...new Set(this.allContacts.flatMap(({ tags }) => tags))];
   }
 
   onContactsUpdate(handler) {
-    this.triggerUpdate = handler;
+    this.triggerContactsUpdate = handler;
   }
 
   getContact(id) {
@@ -35,7 +40,7 @@ class Model {
       this.filteredContacts = this.allContacts;
     }
 
-    this.triggerUpdate();
+    this.triggerContactsUpdate();
   }
 
   filterByTag(tag) {
@@ -49,7 +54,7 @@ class Model {
       this.filteredContacts = this.allContacts;
     }
 
-    this.triggerUpdate();
+    this.triggerContactsUpdate();
   }
 
   async addContact(contact) {
@@ -64,7 +69,7 @@ class Model {
     if (response.ok) {
       const newContact = await response.json();
       this.allContacts.push(newContact);
-      this.triggerUpdate();
+      this.triggerContactsUpdate();
     } else {
       console.log(response);
     }
@@ -86,7 +91,7 @@ class Model {
         (contact) => contact.id === parseInt(id)
       );
       this.allContacts[index] = updatedContact;
-      this.triggerUpdate();
+      this.triggerContactsUpdate();
     } else {
       console.log(response);
     }
@@ -103,7 +108,7 @@ class Model {
       );
       this.filteredContacts = this.allContacts;
 
-      this.triggerUpdate();
+      this.triggerContactsUpdate();
     } else {
       console.log(response);
     }
@@ -111,7 +116,7 @@ class Model {
 
   reset() {
     this.filteredContacts = this.allContacts;
-    this.triggerUpdate();
+    this.triggerContactsUpdate();
   }
 }
 

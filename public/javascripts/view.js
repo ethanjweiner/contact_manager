@@ -1,4 +1,4 @@
-import { HomePage, ContactPage } from './page.js';
+import { HomePage, ContactPage } from './pages.js';
 
 class View {
   constructor() {

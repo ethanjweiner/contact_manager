@@ -6,7 +6,8 @@
     "tags": [
       "SWE",
       "running",
-      "family"
+      "family",
+      "work"
     ],
     "id": 1
   },
@@ -15,17 +16,10 @@
     "phone_number": "2351243521346",
     "email": "dad@gmail.com",
     "tags": [
-      "Tag1"
+      "Tag1",
+      "family",
+      "run"
     ],
     "id": 2
-  },
-  {
-    "full_name": "Grace",
-    "phone_number": "23412365",
-    "email": "gweins@gmail.com",
-    "tags": [
-      "etgasdfg"
-    ],
-    "id": 3
   }
 ]

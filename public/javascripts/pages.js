@@ -17,7 +17,7 @@ class Page {
   }
 
   insertTemplate(element, template, data = {}) {
-    if (element.firstElementChild) element.firstElementChild.remove();
+    [...element.children].forEach((child) => child.remove());
     element.insertAdjacentHTML('afterbegin', this.templates[template](data));
   }
 }
@@ -26,6 +26,7 @@ class HomePage extends Page {
   constructor(pageElement) {
     super(pageElement);
     this.contactsList = this.select('.contacts-list');
+    this.tagsList = this.select('.all-tags');
     this.searchBox = this.select('#search');
     this.clearFiltersButton = this.select('.clear-filters');
   }
@@ -33,6 +34,10 @@ class HomePage extends Page {
   // Rendering
   renderContactsList(data) {
     this.insertTemplate(this.contactsList, 'contacts_list', data);
+  }
+
+  renderTags(tags) {
+    this.insertTemplate(this.tagsList, 'tags', { tags });
   }
 
   // Event Listeners
@@ -70,7 +75,7 @@ class HomePage extends Page {
   }
 
   onTagClick(handler) {
-    this.contactsList.addEventListener('click', (e) => {
+    document.addEventListener('click', (e) => {
       const target = e.target;
 
       if (target.classList.contains('tag-link')) {

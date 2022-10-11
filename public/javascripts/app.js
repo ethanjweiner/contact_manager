@@ -3,7 +3,7 @@ import Model from '/javascripts/model.js';
 import View from '/javascripts/view.js';
 
 (async () => {
-  const TEMPLATES = ['contact_form', 'contacts_list'];
+  const TEMPLATES = ['contact_form', 'contacts_list', 'tags'];
   const PARTIALS = ['tags', 'contact'];
 
   async function compileTemplates() {
@@ -26,7 +26,7 @@ import View from '/javascripts/view.js';
 
   async function registerPartials() {
     const promises = PARTIALS.map((partialName) => {
-      fetch(`/templates/partials/${partialName}.handlebars`)
+      fetch(`/templates/${partialName}.handlebars`)
         .then((response) => response.text())
         .then((template) => {
           Handlebars.registerPartial(partialName, template);
