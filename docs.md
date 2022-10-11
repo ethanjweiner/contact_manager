@@ -137,6 +137,7 @@ Next Up:
   - e.g. Event listeners = ONLY for listening to events
 - Difficulty: Knowing what parameters represent?
   - Just pass event to handler functions?
+- Better Handlebars patterns?
 
 ## DESIGN PATTERNS
 
@@ -147,3 +148,5 @@ Next Up:
 - Each `Page` is a class
 - Each part of the `Model` is a class
 - Extract data from view at `page` directly (view events should pass data ready to go)
+- Use custom `ajax` helper
+- Wrap asynchronous calls w/ try...catch

@@ -1,4 +1,6 @@
 class Model {
+  static #API_PATH = '/api/contacts';
+
   constructor() {
     this.#loadContacts();
     this.nameFilter = null;
@@ -7,24 +9,18 @@ class Model {
     this.triggerContactsUpdate = () => {};
   }
 
-  loadTags() {
-    this.tags = [...new Set(this.allContacts.flatMap(({ tags }) => tags))];
-  }
-
+  // Update handling
   onContactsUpdate(handler) {
     this.triggerContactsUpdate = handler;
   }
 
-  getContact(id) {
-    return this.allContacts.find((contact) => contact.id === id);
-  }
-
+  // Contact filtering
   filterByName(name) {
     this.nameFilter = name;
 
     if (name) {
       this.filteredContacts = this.allContacts.filter(({ full_name }) => {
-        return full_name.toLowerCase().includes(name.toLowerCase());
+        return full_name.toLowerCase().startsWith(name.toLowerCase());
       });
     } else {
       this.filteredContacts = this.allContacts;
@@ -49,25 +45,21 @@ class Model {
 
   // API interactions
   async #loadContacts() {
-    this.allContacts = await this.ajax('GET', '/api/contacts');
+    this.allContacts = await this.ajax('GET', '');
     this.filteredContacts = this.allContacts;
 
     this.triggerContactsUpdate();
   }
 
   async addContact(contact) {
-    const newContact = await this.ajax('POST', '/api/contacts', contact);
+    const newContact = await this.ajax('POST', '', contact);
     this.allContacts.push(newContact);
     this.triggerContactsUpdate();
   }
 
   async editContact(contact) {
     const { id } = contact;
-    const updatedContact = await this.ajax(
-      'PUT',
-      `/api/contacts/${id}`,
-      contact
-    );
+    const updatedContact = await this.ajax('PUT', `/${id}`, contact);
     const index = this.allContacts.findIndex(
       (contact) => contact.id === parseInt(id)
     );
@@ -76,7 +68,7 @@ class Model {
   }
 
   async deleteContact(id) {
-    await this.ajax('DELETE', `/api/contacts/${id}`);
+    await this.ajax('DELETE', `/${id}`);
     this.allContacts = this.allContacts.filter(
       (contact) => contact.id !== parseInt(id)
     );
@@ -86,24 +78,38 @@ class Model {
   }
 
   // Helpers
+  loadTags() {
+    this.tags = [...new Set(this.allContacts.flatMap(({ tags }) => tags))];
+  }
+
+  getContact(id) {
+    return this.allContacts.find((contact) => contact.id === id);
+  }
+
   reset() {
     this.filteredContacts = this.allContacts;
     this.triggerContactsUpdate();
   }
 
-  async ajax(method, url, data = null) {
-    const response = await fetch(url, {
-      method,
-      body: data ? JSON.stringify(data) : null,
-      headers: {
-        'Content-Type': 'application/json; charset="utf-8"',
-      },
-    });
+  async ajax(method, endpoint, data = null) {
+    try {
+      const path = Model.#API_PATH + endpoint;
+      const response = await fetch(path, {
+        method,
+        body: data ? JSON.stringify(data) : null,
+        headers: {
+          'Content-Type': 'application/json; charset="utf-8"',
+        },
+      });
 
-    if (response.ok) {
-      return response.json();
-    } else {
-      alert(`${response.status} error.`);
+      if (response.ok) {
+        if (method === 'DELETE') return;
+        return response.json();
+      } else {
+        throw new Error(`Error in fetching ${path}`);
+      }
+    } catch (error) {
+      alert(error);
     }
   }
 }
